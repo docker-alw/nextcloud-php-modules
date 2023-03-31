@@ -1,4 +1,5 @@
 ---
+# yamllint disable rule:line-length
 # To contribute improvements to CI/CD templates, please follow the Development guide at:
 # https://docs.gitlab.com/ee/development/cicd/templates.html
 # This specific template is located at:
@@ -47,7 +48,7 @@ docker-build:
     - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
     - printf "\e[0Ksection_end:%s:image_build\r\e[0K\n" "$(date +%s)"
     - printf "\e[0Ksection_start:%s:image_test\r\e[0K\e[1;36mImage test\e[0m\n" "$(date +%s)"
-    - docker run --rm "$CI_REGISTRY_IMAGE${tag}" /bin/sh -c "apk list -I | grep php7"
+    - docker run --rm "$CI_REGISTRY_IMAGE${tag}" /bin/sh -c "apk list -I | grep php81"
     - printf "\e[0Ksection_end:%s:image_test\r\e[0K\n" "$(date +%s)"
     - printf "\e[0Ksection_start:%s:image_push\r\e[0K\e[1;36mImage push\e[0m\n" "$(date +%s)"
     - docker push "$CI_REGISTRY_IMAGE${tag}"
