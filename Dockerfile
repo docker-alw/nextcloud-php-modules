@@ -1,6 +1,8 @@
 # vim:set ft=dockerfile:
+# hadolint ignore=DL3007
 FROM alpine:latest
 
+# hadolint ignore=DL3018
 RUN set -x \
     && adduser -S -u 960 nextcloud \
     && apk --no-cache add \
