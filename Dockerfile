@@ -5,7 +5,7 @@ FROM alpine:latest
 # hadolint ignore=DL3018
 RUN set -x \
     && adduser -S -u 960 nextcloud \
-    && install -d -o nextcloud /var/log/php81 \
+    && install -d -o nextcloud /var/log/php82 \
     && ln -s /dev/stderr /var/log/php81/error.log
 RUN apk --no-cache add \
         ffmpeg \
