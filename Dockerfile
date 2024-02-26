@@ -5,37 +5,38 @@ FROM alpine:latest
 # hadolint ignore=DL3018
 RUN set -x \
     && adduser -S -u 960 nextcloud \
-    && apk --no-cache add \
+    && install -d -o nextcloud /var/log/php81 \
+    && ln -s /dev/stderr /var/log/php81/error.log
+RUN apk --no-cache add \
         ffmpeg \
         imagemagick \
         libreoffice \
-        php81-bcmath \
-        php81-bz2 \
-        php81-ctype \
-        php81-curl \
-        php81-dom \
-        php81-exif \
-        php81-fileinfo \
-        php81-gd \
-        php81-gettext \
-        php81-gmp \
-        php81-iconv \
-        php81-imap \
-        php81-intl \
-        php81-mbstring \
-        php81-opcache \
-        php81-openssl \
-        php81-pcntl \
-        php81-pdo_mysql \
-        php81-pecl-apcu \
-        php81-pecl-imagick \
-        php81-posix \
-        php81-session \
-        php81-simplexml \
-        php81-sysvsem \
-        php81-xml \
-        php81-xmlreader \
-        php81-xmlwriter \
-        php81-zip \
-    && install -d -o nextcloud /var/log/php81 \
-    && ln -s /dev/stderr /var/log/php81/error.log
+        php82-bcmath \
+        php82-bz2 \
+        php82-ctype \
+        php82-curl \
+        php82-dom \
+        php82-exif \
+        php82-fileinfo \
+        php82-gd \
+        php82-gettext \
+        php82-gmp \
+        php82-iconv \
+        php82-imap \
+        php82-intl \
+        php82-mbstring \
+        php82-opcache \
+        php82-openssl \
+        php82-pcntl \
+        php82-pdo_mysql \
+        php82-pecl-apcu \
+        php82-pecl-imagick \
+        php82-posix \
+        php82-session \
+        php82-simplexml \
+        php82-sodium \
+        php82-sysvsem \
+        php82-xml \
+        php82-xmlreader \
+        php82-xmlwriter \
+        php82-zip
