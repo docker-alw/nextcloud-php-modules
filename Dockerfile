@@ -2,6 +2,7 @@
 # hadolint ignore=DL3007
 FROM alpine:latest
 
+COPY test.sh /test.sh
 ARG PHP_VERSION=82
 # hadolint ignore=DL3018
 RUN set -x \
