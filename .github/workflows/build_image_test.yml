@@ -61,3 +61,4 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'MEDIUM,CRITICAL,HIGH'
+          hide-progress: true

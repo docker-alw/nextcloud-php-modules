@@ -47,6 +47,7 @@ jobs:
           context: .
           platforms: ${{ env.PLATFORMS }}
           push: true
+          pull: true
           tags: ${{ env.IMAGE_URL }}
 
       - name: Test
@@ -62,3 +63,4 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'MEDIUM,CRITICAL,HIGH'
+          hide-progress: true
