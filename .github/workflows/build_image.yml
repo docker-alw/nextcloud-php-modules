@@ -8,6 +8,8 @@ name: "Build Image"
   pull_request:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '23 10 5 * *'
 
 env:
   IMAGE_URL_TEST: ghcr.io/${{ github.repository }}:test
@@ -52,16 +54,13 @@ jobs:
           tags: ${{ env.IMAGE_URL_TEST }}
 
       - name: Test
-        if: github.base_ref
         run: |
           docker run --rm "$IMAGE_URL_TEST" "/test.sh"
 
       # build latest image
       - name: Build and Push Main
         uses: docker/build-push-action@v5
-        if: >-
-          github.event.push &&
-          github.ref_name == 'main'
+        if: ${{ github.event.schedule || ( github.event.push && github.ref_name == 'main' ) }}
         with:
           context: .
           platforms: ${{ env.PLATFORMS }}
