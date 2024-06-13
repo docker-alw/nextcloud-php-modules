@@ -1,8 +1,10 @@
 # nextcloud-php-modules
 
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/docker-alw/nextcloud-php-modules/main.svg)](https://results.pre-commit.ci/latest/github/docker-alw/nextcloud-php-modules/main)
+
 Docker image based on alpine with all modules required for Nextcloud installed.
 
-It is intended to be used as base image for https://gitlab.com/docker-alw/nextcloud and https://gitlab.com/docker-alw/nextcloud-cron.
+It is intended to be used as base image for https://github.com/docker-alw/nextcloud and https://github.com/docker-alw/nextcloud-cron.
 
 The following packages are installed:
 

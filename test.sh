@@ -2,7 +2,7 @@
 
 set -x -e -o pipefail
 
-PHP_VERSION=82
+PHP_VERSION=83
 
 getent passwd | grep nextcloud | grep 960
 

@@ -3,7 +3,7 @@
 FROM alpine:latest
 
 COPY test.sh /test.sh
-ARG PHP_VERSION=82
+ARG PHP_VERSION=83
 # hadolint ignore=DL3018
 RUN set -x \
     && adduser -S -u 960 nextcloud \
