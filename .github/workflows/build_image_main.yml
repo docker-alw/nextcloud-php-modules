@@ -5,12 +5,14 @@ name: "Build Main Image"
 "on":
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: '23 10 5 * *'
 
 env:
-  IMAGE_URL: ghcr.io/${{ github.repository }}:latest
+  IMAGE_URL: ghcr.io/${{ github.repository }}
   PLATFORMS: "linux/amd64,linux/arm64"
 
 jobs:
@@ -46,6 +48,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.IMAGE_URL }}
+          tags: |
+            type=raw,value=test,priority=200
+            type=raw,value=latest,priority=300,enable={{is_default_branch}}
 
       - name: Build and Load
         uses: docker/build-push-action@v5
@@ -53,17 +58,19 @@ jobs:
           context: .
           load: true
           pull: true
-          tags: ${{ env.IMAGE_URL }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Test
         run: |
-          docker run --rm "$IMAGE_URL" "/test.sh"
+          docker run --rm "$FULL_IMAGE_URL" "/test.sh"
+        env:
+          FULL_IMAGE_URL: ${{ steps.meta.outputs.tags }}
 
       - name: Test Trivy
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          image-ref: ${{ env.IMAGE_URL }}
+          image-ref: ${{ steps.meta.outputs.tags }}
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -78,5 +85,5 @@ jobs:
           platforms: ${{ env.PLATFORMS }}
           push: true
           pull: true
-          tags: ${{ env.IMAGE_URL }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
