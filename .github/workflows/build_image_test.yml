@@ -39,16 +39,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push Test
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_URL }}
+
+      - name: Build and Load
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: ${{ env.PLATFORMS }}
-          push: true
+          load: true
           pull: true
           tags: ${{ env.IMAGE_URL }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Test Script
+      - name: Test
         run: |
           docker run --rm "$IMAGE_URL" "/test.sh"
 
@@ -62,3 +68,13 @@ jobs:
           vuln-type: 'os,library'
           severity: 'MEDIUM,CRITICAL,HIGH'
           hide-progress: true
+
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: ${{ env.PLATFORMS }}
+          push: true
+          pull: true
+          tags: ${{ env.IMAGE_URL }}
+          labels: ${{ steps.meta.outputs.labels }}
