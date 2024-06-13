@@ -11,35 +11,45 @@ The following packages are installed:
 * ffmpeg
 * imagemagick
 * libreoffice
-* php82-bcmath
-* php82-bz2
-* php82-ctype
-* php82-curl
-* php82-dom
-* php82-exif
-* php82-fileinfo
-* php82-gd
-* php82-gettext
-* php82-gmp
-* php82-iconv
-* php82-imap
-* php82-intl
-* php82-mbstring
-* php82-opcache
-* php82-openssl
-* php82-pcntl
-* php82-pdo_mysql
-* php82-pecl-apcu
-* php82-pecl-imagick
-* php82-posix
-* php82-session
-* php82-simplexml
-* php82-sodium
-* php82-sysvsem
-* php82-xml
-* php82-xmlreader
-* php82-xmlwriter
-* php82-zip
+* php83-bcmath
+* php83-bz2
+* php83-ctype
+* php83-curl
+* php83-dom
+* php83-exif
+* php83-fileinfo
+* php83-gd
+* php83-gettext
+* php83-gmp
+* php83-iconv
+* php83-imap
+* php83-intl
+* php83-mbstring
+* php83-opcache
+* php83-openssl
+* php83-pcntl
+* php83-pdo_mysql
+* php83-pecl-apcu
+* php83-pecl-imagick
+* php83-posix
+* php83-session
+* php83-simplexml
+* php83-sodium
+* php83-sysvsem
+* php83-xml
+* php83-xmlreader
+* php83-xmlwriter
+* php83-zip
+
+## Usage
+
+To use the images build by this repository just run:
+
+```bash
+docker run --rm -ti ghcr.io/docker-alw/nextcloud-php-modules:latest # for main-branch version
+# or
+docker run --rm -ti ghcr.io/docker-alw/nextcloud-php-modules:test # for pull-request version
+```
 
 ## Run aarch64 VM with Qemu
 

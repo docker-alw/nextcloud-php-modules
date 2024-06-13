@@ -7,6 +7,9 @@ name: "Build Main Image"
     branches: [main]
   pull_request:
     branches: [main]
+    paths:
+      - Dockerfile
+      - test.sh
   workflow_dispatch:
   schedule:
     - cron: '23 10 5 * *'
@@ -53,6 +56,8 @@ jobs:
             type=raw,value=latest,priority=300,enable={{is_default_branch}}
             # use test in every other action
             type=raw,value=test,priority=200,enable=${{ github.ref != format('refs/heads/{0}', 'main') }}
+          labels: |
+            org.opencontainers.image.description=Base PHP image with dependencies for Nextcloud
 
       - name: Build and Load
         uses: docker/build-push-action@v5
