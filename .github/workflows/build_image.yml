@@ -1,0 +1,69 @@
+---
+# yamllint disable rule:line-length
+name: "Build Image"
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  IMAGE_URL_TEST: ghcr.io/${{ github.repository }}:test
+  IMAGE_URL_MAIN: ghcr.io/${{ github.repository }}:latest
+  PLATFORMS: "linux/amd64,linux/arm64"
+
+jobs:
+  build-push:
+    name: Build-Push
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      packages: write
+
+    steps:
+      - name: start
+        run: echo "Start with ${PLATFORMS}, ${IMAGE_URL_TEST}, ${IMAGE_URL_MAIN}"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: ${{ env.PLATFORMS }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # build test image
+      - name: Build and Push Test
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: ${{ env.PLATFORMS }}
+          push: true
+          tags: ${{ env.IMAGE_URL_TEST }}
+
+      - name: Test
+        if: github.base_ref
+        run: |
+          docker run --rm "$IMAGE_URL_TEST" "/test.sh"
+
+      # build latest image
+      - name: Build and Push Main
+        uses: docker/build-push-action@v5
+        if: >-
+          github.event.push &&
+          github.ref_name == 'main'
+        with:
+          context: .
+          platforms: ${{ env.PLATFORMS }}
+          push: true
+          tags: ${{ env.IMAGE_URL_MAIN }}

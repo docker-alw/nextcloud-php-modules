@@ -38,3 +38,18 @@ The following packages are installed:
 * php82-xmlreader
 * php82-xmlwriter
 * php82-zip
+
+## Run aarch64 VM with Qemu
+
+To test the aarch64 architecture of this container on x86_64 ArchLinux you can install 'qemu-full' and run:
+
+```bash
+mkdir aarch64_test
+cd aarch64_test
+cp /usr/share/edk2-armvirt/aarch64/QEMU_VARS.fd varstore.img
+curl -O https://laotzu.ftp.acc.umu.se/images/cloud/bookworm/latest/debian-12-nocloud-arm64.qcow2
+cp debian-12-nocloud-arm64.qcow2 image.img
+qemu-system-aarch64 -m 4G -cpu max -M virt -boot menu=on -drive file=image.img,format=qcow2 -drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2/aarch64/QEMU_CODE.fd -drive if=pflash,format=raw,file=varstore.img
+```
+
+Within the VM you can install docker.io and run the container.
