@@ -49,8 +49,12 @@ jobs:
         with:
           images: ${{ env.IMAGE_URL }}
           tags: |
-            type=raw,value=test,priority=200
+            # use latest on main
             type=raw,value=latest,priority=300,enable={{is_default_branch}}
+            # use test in every other action
+            type=raw,value=test,priority=200
+            # requried to always have a list for "Test Script"
+            type=raw,value=fallback,priority=100
 
       - name: Build and Load
         uses: docker/build-push-action@v5
