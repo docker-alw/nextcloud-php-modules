@@ -41,6 +41,16 @@ The following packages are installed:
 * php83-xmlwriter
 * php83-zip
 
+## Usage
+
+To use the images build by this repository just run:
+
+```bash
+docker run --rm -ti ghcr.io/docker-alw/nextcloud-php-modules:latest # for main-branch version
+# or
+docker run --rm -ti ghcr.io/docker-alw/nextcloud-php-modules:test # for pull-request version
+```
+
 ## Run aarch64 VM with Qemu
 
 To test the aarch64 architecture of this container on x86_64 ArchLinux you can install 'qemu-full' and run:

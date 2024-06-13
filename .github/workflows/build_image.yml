@@ -7,6 +7,9 @@ name: "Build Main Image"
     branches: [main]
   pull_request:
     branches: [main]
+    paths:
+      - Dockerfile
+      - test.sh
   workflow_dispatch:
   schedule:
     - cron: '23 10 5 * *'
