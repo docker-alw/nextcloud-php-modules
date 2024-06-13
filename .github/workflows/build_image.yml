@@ -52,9 +52,7 @@ jobs:
             # use latest on main
             type=raw,value=latest,priority=300,enable={{is_default_branch}}
             # use test in every other action
-            type=raw,value=test,priority=200
-            # requried to always have a list for "Test Script"
-            type=raw,value=fallback,priority=100
+            type=raw,value=test,priority=200,enable=${{ github.ref != format('refs/heads/{0}', 'main') }}
 
       - name: Build and Load
         uses: docker/build-push-action@v5
@@ -70,7 +68,7 @@ jobs:
           echo "testing $FULL_IMAGE_URL"
           docker run --rm "$FULL_IMAGE_URL" "/test.sh"
         env:
-          FULL_IMAGE_URL: ${{ steps.meta.outputs.tags[0] }}
+          FULL_IMAGE_URL: ${{ steps.meta.outputs.tags }}
 
       - name: Test Trivy
         uses: aquasecurity/trivy-action@0.20.0
