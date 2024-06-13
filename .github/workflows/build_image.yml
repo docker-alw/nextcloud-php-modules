@@ -1,6 +1,6 @@
 ---
 # yamllint disable rule:line-length
-name: "Build Image"
+name: "Build Main Image"
 
 "on":
   push:
@@ -12,8 +12,7 @@ name: "Build Image"
     - cron: '23 10 5 * *'
 
 env:
-  IMAGE_URL_TEST: ghcr.io/${{ github.repository }}:test
-  IMAGE_URL_MAIN: ghcr.io/${{ github.repository }}:latest
+  IMAGE_URL: ghcr.io/${{ github.repository }}
   PLATFORMS: "linux/amd64,linux/arm64"
 
 jobs:
@@ -26,7 +25,7 @@ jobs:
 
     steps:
       - name: start
-        run: echo "Start with ${PLATFORMS}, ${IMAGE_URL_TEST}, ${IMAGE_URL_MAIN}"
+        run: echo "Start with ${PLATFORMS}, ${IMAGE_URL}"
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,25 +43,48 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # build test image
-      - name: Build and Push Test
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_URL }}
+          tags: |
+            type=raw,value=test,priority=200
+            type=raw,value=latest,priority=300,enable={{is_default_branch}}
+
+      - name: Build and Load
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: ${{ env.PLATFORMS }}
-          push: true
-          tags: ${{ env.IMAGE_URL_TEST }}
+          load: true
+          pull: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Test
+      - name: Test Script
         run: |
-          docker run --rm "$IMAGE_URL_TEST" "/test.sh"
+          echo "testing $FULL_IMAGE_URL"
+          docker run --rm "$FULL_IMAGE_URL" "/test.sh"
+        env:
+          FULL_IMAGE_URL: ${{ steps.meta.outputs.tags }}
 
-      # build latest image
-      - name: Build and Push Main
+      - name: Test Trivy
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: ${{ steps.meta.outputs.tags }}
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'MEDIUM,CRITICAL,HIGH'
+          hide-progress: true
+
+      - name: Build and Push
         uses: docker/build-push-action@v5
-        if: ${{ github.event.schedule || ( github.event.push && github.ref_name == 'main' ) }}
         with:
           context: .
           platforms: ${{ env.PLATFORMS }}
           push: true
-          tags: ${{ env.IMAGE_URL_MAIN }}
+          pull: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

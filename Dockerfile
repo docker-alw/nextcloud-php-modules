@@ -9,6 +9,7 @@ RUN set -x \
     && adduser -S -u 960 nextcloud \
     && install -d -o nextcloud "/var/log/php${PHP_VERSION}" \
     && ln -s /dev/stderr "/var/log/php${PHP_VERSION}/error.log"
+# hadolint ignore=DL3018
 RUN apk --no-cache add \
         ffmpeg \
         imagemagick \
@@ -42,3 +43,5 @@ RUN apk --no-cache add \
         "php${PHP_VERSION}-xmlreader" \
         "php${PHP_VERSION}-xmlwriter" \
         "php${PHP_VERSION}-zip"
+# hadolint ignore=DL3059
+RUN apk --no-cache upgrade
