@@ -3,6 +3,7 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/docker-alw/nextcloud-php-modules/main.svg)](https://results.pre-commit.ci/latest/github/docker-alw/nextcloud-php-modules/main)
 [![dependabot update](https://github.com/docker-alw/nextcloud-php-modules/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/docker-alw/nextcloud-php-modules/actions/workflows/dependabot/dependabot-updates)
 [![dependabot validate](https://github.com/docker-alw/nextcloud-php-modules/actions/workflows/dependabot_validate.yml/badge.svg)](https://github.com/docker-alw/nextcloud-php-modules/actions/workflows/dependabot_validate.yml)
+[![Build Main Image](https://github.com/docker-alw/nextcloud-php-modules/actions/workflows/build_image.yml/badge.svg)](https://github.com/docker-alw/nextcloud-php-modules/actions/workflows/build_image.yml)
 
 Docker image based on alpine with all modules required for Nextcloud installed.
 
