@@ -2,7 +2,7 @@
 # hadolint ignore=DL3007
 FROM alpine:latest
 
-ARG PHP_VERSION=83
+ENV PHP_VERSION=83
 RUN echo "PHP_VERSION=${PHP_VERSION}" > /php_version
 COPY test.sh /test.sh
 # hadolint ignore=DL3018
