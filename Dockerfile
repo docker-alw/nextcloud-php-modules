@@ -2,8 +2,9 @@
 # hadolint ignore=DL3007
 FROM alpine:latest
 
+ENV PHP_VERSION=83
+RUN echo "PHP_VERSION=${PHP_VERSION}" > /php_version
 COPY test.sh /test.sh
-ARG PHP_VERSION=83
 # hadolint ignore=DL3018
 RUN set -x \
     && adduser -S -u 960 nextcloud \

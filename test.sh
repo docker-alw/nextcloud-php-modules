@@ -1,11 +1,13 @@
-#!/bin/sh
+#!/bin/ash
+# shellcheck shell=dash
 
 set -x -e -o pipefail
 
-PHP_VERSION=83
+# shellcheck disable=SC1091
+. /php_version
 
 getent passwd | grep nextcloud | grep 960
 
-test -h /var/log/php${PHP_VERSION}/error.log
+test -h "/var/log/php${PHP_VERSION}/error.log"
 
 apk list -I | grep "php${PHP_VERSION}"
