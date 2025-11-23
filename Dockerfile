@@ -33,8 +33,10 @@ RUN apk --no-cache add \
         "php${PHP_VERSION}-openssl" \
         "php${PHP_VERSION}-pcntl" \
         "php${PHP_VERSION}-pdo_mysql" \
+        "php${PHP_VERSION}-pdo_pgsql" \
         "php${PHP_VERSION}-pecl-apcu" \
         "php${PHP_VERSION}-pecl-imagick" \
+        "php${PHP_VERSION}-pecl-redis" \
         "php${PHP_VERSION}-posix" \
         "php${PHP_VERSION}-session" \
         "php${PHP_VERSION}-simplexml" \
