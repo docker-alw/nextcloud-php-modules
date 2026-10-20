@@ -2,7 +2,7 @@
 # hadolint ignore=DL3007
 FROM alpine:latest
 
-ENV PHP_VERSION=83
+ENV PHP_VERSION=85
 RUN echo "PHP_VERSION=${PHP_VERSION}" > /php_version
 COPY test.sh /test.sh
 # hadolint ignore=DL3018
@@ -26,10 +26,8 @@ RUN apk --no-cache add \
         "php${PHP_VERSION}-gettext" \
         "php${PHP_VERSION}-gmp" \
         "php${PHP_VERSION}-iconv" \
-        "php${PHP_VERSION}-imap" \
         "php${PHP_VERSION}-intl" \
         "php${PHP_VERSION}-mbstring" \
-        "php${PHP_VERSION}-opcache" \
         "php${PHP_VERSION}-openssl" \
         "php${PHP_VERSION}-pcntl" \
         "php${PHP_VERSION}-pdo_mysql" \
